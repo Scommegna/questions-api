@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: questions-api
+
+  profiles:
+    active: dev
+
+  jackson:
+    time-zone: America/Sao_Paulo
+    locale: pt_BR
