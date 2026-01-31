@@ -1,4 +1,4 @@
-package com.freequestions.questions_api.models.auth;
+package com.freequestions.questions_api.models.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

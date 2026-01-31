@@ -1,4 +1,4 @@
-package com.freequestions.questions_api.dtos.auth;
+package com.freequestions.questions_api.dtos.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
