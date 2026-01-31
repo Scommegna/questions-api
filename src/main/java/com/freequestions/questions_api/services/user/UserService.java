@@ -1,6 +1,7 @@
 package com.freequestions.questions_api.services.user;
 
 import com.freequestions.questions_api.dtos.user.CreateUserDTO;
+import com.freequestions.questions_api.exceptions.EmailAlreadyInUseException;
 import com.freequestions.questions_api.models.user.Role;
 import com.freequestions.questions_api.models.user.User;
 import com.freequestions.questions_api.repositories.user.UserRepository;
@@ -21,7 +22,7 @@ public class UserService {
     @Transactional
     public User create(CreateUserDTO dto) {
         if(userRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("Email already in use");
+            throw new EmailAlreadyInUseException(dto.getEmail());
         }
 
         String hashedPassword = passwordEncoder.encode(dto.getPassword());
