@@ -35,7 +35,7 @@ public class UserServiceTest {
     void setUp() {
         dto = new CreateUserDTO(
                 "student@email.com",
-                "Senha#12345",
+                "StrongP@ssw0rd1",
                 "Student",
                 "Test"
         );

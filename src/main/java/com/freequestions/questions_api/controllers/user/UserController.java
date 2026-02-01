@@ -1,4 +1,4 @@
-package com.freequestions.questions_api.controllers;
+package com.freequestions.questions_api.controllers.user;
 
 import com.freequestions.questions_api.dtos.user.CreateUserDTO;
 import com.freequestions.questions_api.services.user.UserService;
