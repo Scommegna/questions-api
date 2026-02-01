@@ -26,6 +26,13 @@ public class CreateUserDTO {
 
     public CreateUserDTO() {}
 
+    public CreateUserDTO(String email, String password, String name, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.lastName = lastName;
+    }
+
     public String getEmail() {
         return email;
     }
