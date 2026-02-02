@@ -53,7 +53,7 @@ public class UserControllerTest {
         when(userService.create(any(CreateUserDTO.class)))
                 .thenReturn(fakeUser);
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/api/users")
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated());
@@ -68,7 +68,7 @@ public class UserControllerTest {
                 ""
         );
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/api/users")
                         .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest())
@@ -87,7 +87,7 @@ public class UserControllerTest {
         doThrow(new EmailAlreadyInUseException(dto.getEmail()))
                 .when(userService).create(any(CreateUserDTO.class));
 
-        mockMvc.perform(post("/users")
+        mockMvc.perform(post("/api/users")
                         .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isConflict())

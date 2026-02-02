@@ -12,8 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ProdSecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
-            "/users",
-            "/auth/login"
+            "/api/users",
+            "/api/auth/login"
     };
 
     @Bean
