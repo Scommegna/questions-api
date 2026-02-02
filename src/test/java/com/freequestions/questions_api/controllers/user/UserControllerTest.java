@@ -60,7 +60,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void shouldReturn40WhenDtoIsInvalid() throws Exception {
+    void shouldReturn400WhenDtoIsInvalid() throws Exception {
         CreateUserDTO dto = new CreateUserDTO(
           "invalid-email",
           "123",
