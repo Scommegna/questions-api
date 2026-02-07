@@ -1,12 +1,11 @@
 package com.freequestions.questions_api.services.auth;
 
+import com.freequestions.questions_api.config.jwt.JwtProperties;
 import com.freequestions.questions_api.models.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.function.Function;
@@ -14,18 +13,22 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private final String SECRET = "change-this-in-prod";
-    private final long EXPIRATION = 1000 * 60 * 60 * 24; // 24 hours
+    private final JwtProperties jwtProperties;
+
+    public JwtService(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+    }
 
     public String generateToken(User user) {
-        SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
                 .setSubject(user.getEmail())
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(key)
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + jwtProperties.getExpiration())
+                )
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecret())
                 .compact();
     }
 
@@ -50,7 +53,7 @@ public class JwtService {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET.getBytes(StandardCharsets.UTF_8))
+                .setSigningKey(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
