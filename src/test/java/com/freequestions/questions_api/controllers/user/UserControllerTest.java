@@ -1,11 +1,16 @@
 package com.freequestions.questions_api.controllers.user;
 
+import com.freequestions.questions_api.config.auth.JwtAuthenticationFilter;
 import com.freequestions.questions_api.dtos.user.CreateUserDTO;
 import com.freequestions.questions_api.exceptions.EmailAlreadyInUseException;
 import com.freequestions.questions_api.models.user.Role;
 import com.freequestions.questions_api.models.user.User;
 import com.freequestions.questions_api.services.user.UserService;
-import org.junit.jupiter.api.MediaType;
+import org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration;
+import org.springframework.boot.security.autoconfigure.web.servlet.SecurityFilterAutoConfiguration;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -21,7 +26,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
+@WebMvcTest(
+        controllers = UserController.class,
+        excludeAutoConfiguration = {
+                SecurityAutoConfiguration.class,
+                SecurityFilterAutoConfiguration.class
+        }
+)
 @AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTest {
     @Autowired
@@ -32,6 +43,15 @@ public class UserControllerTest {
 
     @MockitoBean
     private UserService userService;
+
+    @TestConfiguration
+    static class TestSecurityConfig {
+
+        @Bean
+        JwtAuthenticationFilter jwtAuthenticationFilter() {
+            return org.mockito.Mockito.mock(JwtAuthenticationFilter.class);
+        }
+    }
 
     @Test
     void shouldReturn201WhenUserIsCreated() throws Exception {
