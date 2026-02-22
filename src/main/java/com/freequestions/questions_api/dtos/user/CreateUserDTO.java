@@ -24,15 +24,6 @@ public class CreateUserDTO {
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
 
-    public CreateUserDTO() {}
-
-    public CreateUserDTO(String email, String password, String name, String lastName) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.lastName = lastName;
-    }
-
     public String getEmail() {
         return email;
     }
